@@ -168,7 +168,7 @@ For example:
 ### `Button.js`
 
 ```js
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Button extends Component {
     render() {
@@ -183,8 +183,8 @@ export default Button; // Don’t forget to use export default!
 
 
 ```js
-import React, { Component } from 'react';
-import Button from './Button'; // Import a component from another file
+import React, { Component } from "react";
+import Button from "./Button"; // Import a component from another file
 
 class DangerButton extends Component {
     render() {
@@ -197,7 +197,7 @@ export default DangerButton;
 
 Be aware of the [difference between default and named exports](http://stackoverflow.com/questions/36795819/react-native-es-6-when-should-i-use-curly-braces-for-import/36796281#36796281). It is a common source of mistakes.
 
-We suggest that you stick to using default imports and exports when a module only exports a single thing (for example, a component). That’s what you get when you use `export default Button` and `import Button from './Button'`.
+We suggest that you stick to using default imports and exports when a module only exports a single thing (for example, a component). That’s what you get when you use `export default Button` and `import Button from "./Button"`.
 
 Named exports are useful for utility modules that export several functions. A module may have at most one default export and as many named exports as you like.
 
@@ -222,8 +222,8 @@ This project setup uses [Webpack](https://webpack.github.io/) for handling all a
 ### `Button.js`
 
 ```js
-import React, { Component } from 'react';
-import './Button.css'; // Tell Webpack that Button.js uses these styles
+import React, { Component } from "react";
+import "./Button.css"; // Tell Webpack that Button.js uses these styles
 
 class Button extends Component {
     render() {
@@ -281,8 +281,8 @@ You can **`import` an image right in a JavaScript module**. This tells Webpack t
 Here is an example:
 
 ```js
-import React from 'react';
-import logo from './logo.png'; // Tell Webpack this JS file uses this image
+import React from "react";
+import logo from "./logo.png"; // Tell Webpack this JS file uses this image
 
 console.log(logo); // /logo.84287d09.png
 
@@ -322,14 +322,14 @@ npm install bootstrap@3 --save
 Import Bootstrap CSS and optionally Bootstrap theme CSS in the ```src/index.js``` file:
 
 ```js
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap-theme.css";
 ```
 
 Import required React Bootstrap components within ```src/App.js``` file or your custom component files:
 
 ```js
-import { Navbar, Jumbotron, Button } from 'react-bootstrap';
+import { Navbar, Jumbotron, Button } from "react-bootstrap";
 ```
 
 Now you are ready to use the imported React Bootstrap components within your component hierarchy defined in the render method. Here is an example [`App.js`](https://gist.githubusercontent.com/gaearon/85d8c067f6af1e56277c82d19fd4da7b/raw/6158dd991b67284e9fc8d70b9d973efe87659d72/App.js) redone using React Bootstrap.
@@ -350,15 +350,15 @@ node_modules/fbjs/lib/shallowEqual.js.flow:29
                                                                      ^^^^^^^^^^ identifier `$FlowIssue`. Could not resolve name
 
 src/App.js:3
-    3: import logo from './logo.svg';
+    3: import logo from "./logo.svg";
                                             ^^^^^^^^^^^^ ./logo.svg. Required module not found
 
 src/App.js:4
-    4: import './App.css';
+    4: import "./App.css";
                         ^^^^^^^^^^^ ./App.css. Required module not found
 
 src/index.js:5
-    5: import './index.css';
+    5: import "./index.css";
                         ^^^^^^^^^^^^^ ./index.css. Required module not found
 ```
 
@@ -372,8 +372,8 @@ To fix this, change your `.flowconfig` to look like this:
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
 
-module.name_mapper='^\(.*\)\.css$' -> 'react-scripts/config/flow/css'
-module.name_mapper='^\(.*\)\.\(jpg\|png\|gif\|eot\|otf\|webp\|svg\|ttf\|woff\|woff2\|mp4\|webm\)$' -> 'react-scripts/config/flow/file'
+module.name_mapper="^\(.*\)\.css$" -> "react-scripts/config/flow/css"
+module.name_mapper="^\(.*\)\.\(jpg\|png\|gif\|eot\|otf\|webp\|svg\|ttf\|woff\|woff2\|mp4\|webm\)$" -> "react-scripts/config/flow/file"
 
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe
@@ -384,8 +384,8 @@ Re-run flow, and you shouldn’t get any extra issues.
 If you later `eject`, you’ll need to replace `react-scripts` references with the `<PROJECT_ROOT>` placeholder, for example:
 
 ```ini
-module.name_mapper='^\(.*\)\.css$' -> '<PROJECT_ROOT>/config/flow/css'
-module.name_mapper='^\(.*\)\.\(jpg\|png\|gif\|eot\|otf\|webp\|svg\|ttf\|woff\|woff2\|mp4\|webm\)$' -> '<PROJECT_ROOT>/config/flow/file'
+module.name_mapper="^\(.*\)\.css$" -> "<PROJECT_ROOT>/config/flow/css"
+module.name_mapper="^\(.*\)\.\(jpg\|png\|gif\|eot\|otf\|webp\|svg\|ttf\|woff\|woff2\|mp4\|webm\)$" -> "<PROJECT_ROOT>/config/flow/file"
 ```
 
 We will consider integrating more tightly with Flow in the future so that you don’t have to do this.
@@ -403,7 +403,7 @@ to `process.env.NODE_ENV`.
 These environment variables can be useful for displaying information conditionally based on where the project is
 deployed or consuming sensitive data that lives outside of version control.
 
-First, you need to have environment variables defined, which can vary between OSes. For example, let's say you wanted to
+First, you need to have environment variables defined, which can vary between OSes. For example, let"s say you wanted to
 consume a secret defined in the environment inside a `<form>`:
 
 ```jsx
@@ -455,7 +455,7 @@ its value set to `abcdef`, and the bold text will show the environment provided 
 Having access to the `NODE_ENV` is also useful for performing actions conditionally:
 
 ```js
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
     analytics.disable();
 }
 ```
@@ -477,7 +477,7 @@ For example, a production setup might look like this after the app is deployed:
 /api/todos        - server handles any /api/* requests using the backend implementation
 ```
 
-Such setup is **not** required. However, if you **do** have a setup like this, it is convenient to write requests like `fetch('/api/todos')` without worrying about redirecting them to another host or port during development.
+Such setup is **not** required. However, if you **do** have a setup like this, it is convenient to write requests like `fetch("/api/todos")` without worrying about redirecting them to another host or port during development.
 
 To tell the development server to proxy any unknown requests to your API server in development, add a `proxy` field to your `package.json`, for example:
 
@@ -485,12 +485,12 @@ To tell the development server to proxy any unknown requests to your API server 
     "proxy": "http://localhost:4000",
 ```
 
-This way, when you `fetch('/api/todos')` in development, the development server will recognize that it’s not a static asset, and will proxy your request to `http://localhost:4000/api/todos` as a fallback.
+This way, when you `fetch("/api/todos")` in development, the development server will recognize that it’s not a static asset, and will proxy your request to `http://localhost:4000/api/todos` as a fallback.
 
 Conveniently, this avoids [CORS issues](http://stackoverflow.com/questions/21854516/understanding-ajax-cors-and-security-considerations) and error messages like this in development:
 
 ```
-Fetch API cannot load http://localhost:4000/api/todos. No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:3000' is therefore not allowed access. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+Fetch API cannot load http://localhost:4000/api/todos. No "Access-Control-Allow-Origin" header is present on the requested resource. Origin "http://localhost:3000" is therefore not allowed access. If an opaque response serves your needs, set the request"s mode to "no-cors" to fetch the resource with CORS disabled.
 ```
 
 Keep in mind that `proxy` only has effect in development (with `npm start`), and it is up to you to ensure that URLs like `/api/todos` point to the right thing in production. You don’t have to use the `/api` prefix. Any unrecognized request will be redirected to the specified `proxy`.
@@ -523,7 +523,7 @@ You can find instructions in [Deploying React with Zero Configuration](https://b
 
 ### Surge
 
-Install the Surge CLI if you haven't already by running `npm install -g surge`. Run the `surge` command and log in you or create a new account. You just need to specify the *build* folder and your custom domain, and you are done.
+Install the Surge CLI if you haven"t already by running `npm install -g surge`. Run the `surge` command and log in you or create a new account. You just need to specify the *build* folder and your custom domain, and you are done.
 
 ```sh
                             email: email@domain.com
@@ -569,7 +569,7 @@ git checkout -
 
 You may copy and paste them, or put them into a custom shell script. You may also customize them for another hosting provider.
 
-Note that GitHub Pages doesn't support routers that use the HTML5 `pushState` history API under the hood (for example, React Router using `browserHistory`). This is because when there is a fresh page load for a url like `http://user.github.io/todomvc/todos/42`, where `/todos/42` is a frontend route, the GitHub Pages server returns 404 because it knows nothing of `/todos/42`. If you want to add a router to a project hosted on GitHub Pages, here are a couple of solutions:
+Note that GitHub Pages doesn"t support routers that use the HTML5 `pushState` history API under the hood (for example, React Router using `browserHistory`). This is because when there is a fresh page load for a url like `http://user.github.io/todomvc/todos/42`, where `/todos/42` is a frontend route, the GitHub Pages server returns 404 because it knows nothing of `/todos/42`. If you want to add a router to a project hosted on GitHub Pages, here are a couple of solutions:
 * You could switch from using HTML5 history API to routing with hashes. If you use React Router, you can switch to `hashHistory` for this effect, but the URL will be longer and more verbose (for example, `http://user.github.io/todomvc/#/todos/42?_k=yknaj`). [Read more](https://github.com/reactjs/react-router/blob/master/docs/guides/Histories.md#histories) about different history implementations in React Router.
 * Alternatively, you can use a trick to teach GitHub Pages to handle 404 by redirecting to your `index.html` page with a special redirect parameter. You would need to add a `404.html` file with the redirection code to the `build` folder before deploying your project, and you’ll need to add code handling the redirect parameter to `index.html`. You can find a detailed explanation of this technique [in this guide](https://github.com/rafrex/spa-github-pages).
 
