@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { Motion, spring } from "react-motion"
 import { StyleSheet, css } from "aphrodite"
 
 export default class Zoomable extends Component {
@@ -8,11 +9,6 @@ export default class Zoomable extends Component {
         this.zoomableNode = null
         this.state = {
             zoomed: false,
-            transitionable: false,
-
-            translateX: 0,
-            translateY: 0,
-            scale: 1,
         }
     }
 
@@ -20,54 +16,55 @@ export default class Zoomable extends Component {
         const { zoomWidth } = this.props
 
         if (!this.state.zoomed) {
+            this.setState({
+                zoomed: true,
+            })
+        }
+    }
+
+    getTranslateSprings() {
+        const { zoomWidth } = this.props
+
+        if (this.zoomableNode && this.state.zoomed) {
             const { top, left, width } = this.zoomableNode.getBoundingClientRect()
 
-            this.setState({
-                translateX: left,
-                translateY: top,
-                zoomed: true,
-            }, () => {
-                // On the next frame, transition to the box centered in the screen
-                const windowWidth = window.innerWidth
-                const windowHeight = window.innerHeight
-                const scale = zoomWidth / width
+            const desiredX = window.innerWidth / 2 - zoomWidth / 2
+            const desiredY = window.innerHeight / 2 - zoomWidth / 2
 
-                requestAnimationFrame(() => {
-                    this.setState({
-                        translateX: windowWidth / 2 - zoomWidth / 2,
-                        translateY: windowHeight / 2 - zoomWidth / 2,
-                        scale,
-                        transitionable: true,
-                    })
-
-                    // Invoke the `onZoom` callback
-                    this.props.onZoom()
-                })
-            })
+            return {
+                scale: spring(zoomWidth / width),
+                translateX: spring(desiredX - left),
+                translateY: spring(desiredY - top),
+            }
+        } else {
+            return {
+                translateX: spring(0),
+                translateY: spring(0),
+                scale: spring(1),
+            }
         }
     }
 
     render() {
         const { children, containerStyle } = this.props
-        const { zoomed, translateX, translateY, scale } = this.state
-
-        const inlineStyle = {
-            transform: `translateX(${translateX}px) translateY(${translateY}px) scale(${scale})`,
-        }
 
         return <div style={containerStyle}>
-            <div
-                ref={(node) => node !== null && (this.zoomableNode = node)}
-                style={inlineStyle}
-                className={css(
-                    this.state.transitionable && styles.transitionable,
-                    !zoomed && styles.normal,
-                    zoomed && styles.zoomed
-                )}
-                onClick={() => this.handleClick()}
-            >
-                {children}
-            </div>
+            <Motion style={this.getTranslateSprings()}>
+                {({translateX, translateY, scale}) =>
+                    <div
+                        className={css(!this.state.zoomed && styles.normal)}
+                        ref={(node) => node !== null && (this.zoomableNode = node)}
+                        style={{
+                            transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
+                            transformOrigin: "0 0",
+                        }}
+                        onClick={() => this.handleClick()}
+                    >
+                        {children}
+                    </div>
+                }
+
+            </Motion>
         </div>
     }
 }
@@ -86,18 +83,7 @@ Zoomable.defaultProps = {
 }
 
 const styles = StyleSheet.create({
-    transitionable: {
-        transition: "all 300ms ease-in-out",
-        transformOrigin: "0 0",
-    },
-
     normal: {
         cursor: "zoom-in",
-    },
-
-    zoomed: {
-        position: "absolute",
-        top: 0,
-        left: 0,
     },
 })
