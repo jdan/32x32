@@ -20,6 +20,12 @@ export default class Toy extends Component {
         const inlineStyle = {
             width: this.props.width,
             height: this.props.height,
+
+            // Sadly, Aphrodite doesn't apply these until the next frame,
+            // but I need them right away in order to measure the bounding
+            // rect.
+            border: "none",
+            padding: 0,
         }
 
         return <button
@@ -66,12 +72,9 @@ Toy.propTypes = {
 const styles = StyleSheet.create({
     toy: {
         background: "none",
-        border: "none",
-        display: "inline-block",
-        padding: 0,
 
         ":focus": {
-            outline: "3px solid blue",
+            outline: "2px solid blue",
         },
     },
 

@@ -1,19 +1,33 @@
 import React, { Component } from "react"
 import { Motion, spring } from "react-motion"
 import { StyleSheet, css } from "aphrodite"
+import throttle from "lodash.throttle"
 
 export default class Zoomable extends Component {
     constructor() {
         super()
-        this.zoomableNode = null
+        this.referenceNode = null
+    }
+
+    componentDidMount() {
+        this.throttledResize = throttle(() => {
+            if (this.props.zoomed) {
+                this.forceUpdate()
+            }
+        }, 33);
+
+        window.addEventListener("resize", this.throttledResize)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.throttledResize)
     }
 
     getTranslateSprings() {
         const { zoomed, zoomWidth } = this.props
 
-        if (this.zoomableNode && zoomed) {
-            // This causes issues if we switch between items really quickly (1-2-1)
-            const { top, left, width } = this.zoomableNode.getBoundingClientRect()
+        if (this.referenceNode && zoomed) {
+            const { top, left, width } = this.referenceNode.getBoundingClientRect()
 
             const desiredX = window.innerWidth / 2 - zoomWidth / 2
             const desiredY = window.innerHeight / 2 - zoomWidth / 2
@@ -35,15 +49,21 @@ export default class Zoomable extends Component {
     render() {
         return <Motion style={this.getTranslateSprings()}>
             {({translateX, translateY, scale}) =>
-                <div
-                    className={css(!this.props.zoomed && styles.normal)}
-                    ref={(node) => node !== null && (this.zoomableNode = node)}
-                    style={{
-                        transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
-                        transformOrigin: "0 0",
-                    }}
-                >
-                    {this.props.children}
+                // We'll use a wrapper "reference" node, which retains its shape
+                // while its child resizes!
+                //
+                // We need a consistent shape in order to perform measurements
+                // on-demand to figure out translations and scaling.
+                <div ref={(node) => node !== null && (this.referenceNode = node)}>
+                    <div
+                        className={css(!this.props.zoomed && styles.normal)}
+                        style={{
+                            transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
+                            transformOrigin: "0 0",
+                        }}
+                    >
+                        {this.props.children}
+                    </div>
                 </div>
             }
         </Motion>
