@@ -7,27 +7,33 @@ import { createPainter } from "./painter.js"
 const ZOOMED_WIDTH = 600
 
 export default class Toy extends Component {
-    constructor(props) {
-        super()
-        this.state = {
-            canvasWidth: props.width,
-            canvasHeight: props.height,
-        }
-    }
-
     componentDidMount() {
         this.renderCanvas()
     }
 
     componentDidUpdate(oldProps, oldState) {
-        if (oldState.canvasWidth !== this.state.canvasWidth) {
+        if (oldProps.zoomed !== this.props.zoomed) {
             this.renderCanvas()
+        }
+    }
+
+    getCanvasDimensions() {
+        if (this.props.zoomed) {
+            return {
+                canvasWidth: ZOOMED_WIDTH,
+                canvasHeight: ZOOMED_WIDTH,
+            }
+        } else {
+            return {
+                canvasWidth: this.props.width,
+                canvasHeight: this.props.height,
+            }
         }
     }
 
     renderCanvas() {
         const { draw } = this.props
-        const { canvasWidth, canvasHeight } = this.state
+        const { canvasWidth, canvasHeight } = this.getCanvasDimensions()
 
         const ctx = this.canvasNode.getContext("2d")
         const painter = createPainter(ctx, canvasWidth, canvasHeight)
@@ -36,25 +42,13 @@ export default class Toy extends Component {
     }
 
     handleClick() {
-        const willBeZoomed = !this.props.zoomed
-
-        if (willBeZoomed) {
-            this.setState({
-                canvasWidth: ZOOMED_WIDTH,
-                canvasHeight: ZOOMED_WIDTH,
-            })
-
+        if (!this.props.zoomed) {
             this.props.onSelect()
-        } else {
-            this.setState({
-                canvasWidth: this.props.width,
-                canvasHeight: this.props.height,
-            })
         }
     }
 
     render() {
-        const { canvasWidth, canvasHeight } = this.state
+        const { canvasWidth, canvasHeight } = this.getCanvasDimensions()
 
         const inlineStyle = {
             width: this.props.width,
@@ -111,6 +105,7 @@ Toy.propTypes = {
 const styles = StyleSheet.create({
     toy: {
         background: "none",
+        margin: 2,
 
         ":focus": {
             outline: "2px solid blue",
