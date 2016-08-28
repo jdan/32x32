@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { createPainter } from "../painter.js"
+import { createPainter } from "./painter.js"
 
 export default class Toy extends Component {
     constructor() {

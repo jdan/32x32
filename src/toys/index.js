@@ -1,12 +1,12 @@
-import Hello from "./Hello.js"
+import * as hello from "./hello.js"
 
 const toys = [
-    Hello,
-    Hello,
-    Hello,
-    Hello,
-    Hello,
-    Hello,
+    hello,
+    hello,
+    hello,
+    hello,
+    hello,
+    hello,
 ]
 
 export default toys
