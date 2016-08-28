@@ -3,6 +3,8 @@ import { Motion, spring } from "react-motion"
 import { StyleSheet, css } from "aphrodite"
 import throttle from "lodash.throttle"
 
+const MAX_ZINDEX = 9999;
+
 export default class Zoomable extends Component {
     constructor() {
         super()
@@ -36,27 +38,37 @@ export default class Zoomable extends Component {
                 scale: spring(zoomWidth / width),
                 translateX: spring(desiredX - left),
                 translateY: spring(desiredY - top),
+                opacity: spring(0.8),
             }
         } else {
             return {
                 translateX: spring(0),
                 translateY: spring(0),
                 scale: spring(1),
+                opacity: spring(0),
             }
         }
     }
 
     render() {
         return <Motion style={this.getTranslateSprings()}>
-            {({translateX, translateY, scale}) =>
+            {({translateX, translateY, scale, opacity}) =>
                 // We'll use a wrapper "reference" node, which retains its shape
                 // while its child resizes!
                 //
                 // We need a consistent shape in order to perform measurements
                 // on-demand to figure out translations and scaling.
                 <div ref={(node) => node !== null && (this.referenceNode = node)}>
+                    {this.props.zoomed && <div
+                        className={css(styles.backdrop)}
+                        style={{ opacity }}
+                    />}
+
                     <div
-                        className={css(!this.props.zoomed && styles.normal)}
+                        className={css(
+                            this.props.zoomed && styles.zoomed,
+                            !this.props.zoomed && styles.normal
+                        )}
                         style={{
                             transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
                             transformOrigin: "0 0",
@@ -85,5 +97,20 @@ Zoomable.defaultProps = {
 const styles = StyleSheet.create({
     normal: {
         cursor: "zoom-in",
+    },
+
+    zoomed: {
+        position: "absolute",
+        zIndex: MAX_ZINDEX,
+    },
+
+    backdrop: {
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: "white",
+        zIndex: MAX_ZINDEX - 1,
     },
 })
