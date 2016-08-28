@@ -20,9 +20,22 @@ export default class Toy extends Component {
     }
 
     componentDidMount() {
-        const { draw, width, height } = this.props
+        this.drawFirstFrame()
+    }
+
+    componentDidUpdate() {
+        this.drawFirstFrame()
+    }
+
+    drawFirstFrame() {
+        const { draw } = this.props
+        const { zoomed } = this.state
+
+        const canvasWidth = zoomed ? ZOOMED_WIDTH : this.props.width
+        const canvasHeight = zoomed ? ZOOMED_WIDTH : this.props.height
+
         const ctx = this.canvasNode.getContext("2d")
-        const painter = createPainter(ctx, width, height)
+        const painter = createPainter(ctx, canvasWidth, canvasHeight)
 
         draw(painter, 0)
     }
@@ -55,16 +68,23 @@ export default class Toy extends Component {
 
     render() {
         const { zoomed, translateX, translateY, scale } = this.state
-        const inlineStyle = {
+
+        const containerSizing = {
+            width: this.props.width,
+            height: this.props.height,
+        }
+
+        const canvasStyle = {
+            ...containerSizing,
             transform: `translateX(${translateX}px) translateY(${translateY}px) scale(${scale})`,
         }
 
+        const canvasWidth = zoomed ? ZOOMED_WIDTH : this.props.width
+        const canvasHeight = zoomed ? ZOOMED_WIDTH : this.props.height
+
         return <div
             className={css(styles.container)}
-            style={{
-                width: this.props.width,
-                height: this.props.height,
-            }}
+            style={containerSizing}
         >
             <canvas
                 ref={(node) => node !== null && (this.canvasNode = node)}
@@ -73,10 +93,10 @@ export default class Toy extends Component {
                     !zoomed && styles.normal,
                     zoomed && styles.zoomed
                 )}
-                style={inlineStyle}
+                style={canvasStyle}
                 onClick={() => this.handleClick()}
-                width={this.props.width}
-                height={this.props.height}
+                width={canvasWidth}
+                height={canvasHeight}
             />
         </div>
     }
