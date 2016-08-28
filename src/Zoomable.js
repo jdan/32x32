@@ -3,8 +3,6 @@ import { Motion, spring } from "react-motion"
 import { StyleSheet, css } from "aphrodite"
 import throttle from "lodash.throttle"
 
-const MAX_ZINDEX = 9999;
-
 export default class Zoomable extends Component {
     constructor() {
         super()
@@ -60,6 +58,7 @@ export default class Zoomable extends Component {
                 // on-demand to figure out translations and scaling.
                 <div
                     ref={(node) => node !== null && (this.referenceNode = node)}
+                    // For some reason, without height: 100% we get a couple pixels on the bottom!
                     style={{ height: "100%" }}
                 >
                     {this.props.zoomed && <div
@@ -97,9 +96,12 @@ Zoomable.defaultProps = {
     zoomWidth: 600,
 }
 
+const MAX_ZINDEX = 9999;
+
 const styles = StyleSheet.create({
     normal: {
         cursor: "zoom-in",
+        // Likewise, we need height: 100% to prevent a couple extra pixels on the bottom
         height: "100%",
     },
 
