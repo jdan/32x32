@@ -4,7 +4,7 @@ import Toy from "./Toy.js"
 
 class App extends Component {
     render() {
-        const size = 64
+        const size = 80
 
         return <div>
             {toys.map((toy, i) => {

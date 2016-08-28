@@ -15,10 +15,11 @@ export function createPainter(ctx, width, height) {
     }
 
     return {
-        // Do we really need these?
+        // Constants
         WIDTH: PIXEL_COUNT,
         HEIGHT: PIXEL_COUNT,
 
+        // Drawing methods
         pixel,
         rect,
     }
