@@ -10,17 +10,34 @@ class App extends Component {
         }
     }
 
-    handleZoom(index) {
+    handleKeyDown(e) {
+        if (e.key === "Escape") {
+            this.setState({
+                zoomedIndex: -1,
+            })
+        }
+    }
+
+    handleSelect(index) {
         this.setState({
             zoomedIndex: index,
         })
     }
 
+    handleDeselect(index) {
+        this.setState({
+            zoomedIndex: -1,
+        })
+    }
+
     render() {
+        // We should compute something based on the screen size
         const size = 80
 
-        return <div>
+        return <div onKeyDown={(e) => this.handleKeyDown(e)}>
             {toys.map((toy, i) => {
+                const isSelected = (this.state.zoomedIndex === i)
+
                 return <Toy
                     key={i}
                     {...toy}
@@ -28,10 +45,11 @@ class App extends Component {
                     width={size}
                     height={size}
 
-                    running={false}
+                    zoomed={isSelected}
+                    running={isSelected}
 
-                    onSelect={() => this.handleZoom(i)}
-                    zoomed={(this.state.zoomedIndex === i)}
+                    onSelect={() => this.handleSelect(i)}
+                    onDeselect={() => this.handleDeselect(i)}
                 />
             })}
         </div>

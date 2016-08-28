@@ -58,7 +58,10 @@ export default class Zoomable extends Component {
                 //
                 // We need a consistent shape in order to perform measurements
                 // on-demand to figure out translations and scaling.
-                <div ref={(node) => node !== null && (this.referenceNode = node)}>
+                <div
+                    ref={(node) => node !== null && (this.referenceNode = node)}
+                    style={{ height: "100%" }}
+                >
                     {this.props.zoomed && <div
                         className={css(styles.backdrop)}
                         style={{ opacity }}
@@ -97,6 +100,7 @@ Zoomable.defaultProps = {
 const styles = StyleSheet.create({
     normal: {
         cursor: "zoom-in",
+        height: "100%",
     },
 
     zoomed: {
