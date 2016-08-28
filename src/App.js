@@ -3,6 +3,19 @@ import toys from "./toys"
 import Toy from "./Toy.js"
 
 class App extends Component {
+    constructor() {
+        super()
+        this.state = {
+            zoomedIndex: -1,
+        }
+    }
+
+    handleZoom(index) {
+        this.setState({
+            zoomedIndex: index,
+        })
+    }
+
     render() {
         const size = 80
 
@@ -10,12 +23,15 @@ class App extends Component {
             {toys.map((toy, i) => {
                 return <Toy
                     key={i}
+                    {...toy}
+
                     width={size}
                     height={size}
+
                     running={false}
-                    draw={toy.draw}
-                    title={toy.title}
-                    description={toy.description}
+
+                    onSelect={() => this.handleZoom(i)}
+                    zoomed={(this.state.zoomedIndex === i)}
                 />
             })}
         </div>

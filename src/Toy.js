@@ -1,20 +1,13 @@
 import React, { Component } from "react"
+import { StyleSheet, css } from "aphrodite"
+
 import Zoomable from "./Zoomable.js"
 import { createPainter } from "./painter.js"
 
 const ZOOMED_WIDTH = 600
 
 export default class Toy extends Component {
-    constructor() {
-        super()
-        this.canvasNode = null
-    }
-
     componentDidMount() {
-        this.drawFirstFrame()
-    }
-
-    drawFirstFrame() {
         const { draw } = this.props
 
         const ctx = this.canvasNode.getContext("2d")
@@ -24,27 +17,35 @@ export default class Toy extends Component {
     }
 
     render() {
-        const containerStyle = {
+        const inlineStyle = {
             width: this.props.width,
             height: this.props.height,
-            display: "inline-block",
         }
 
-        return <Zoomable
-            containerStyle={containerStyle}
-            zoomWidth={ZOOMED_WIDTH}
-            onZoom={() => this.drawFirstFrame()}
+        return <button
+            aria-label={this.props.title}
+            style={inlineStyle}
+            className={css(
+                styles.toy,
+                !this.props.zoomed && styles.thumbnail
+            )}
+            onClick={() => !this.props.zoomed && this.props.onSelect()}
         >
-            <canvas
-                ref={(node) => node !== null && (this.canvasNode = node)}
-                width={ZOOMED_WIDTH}
-                height={ZOOMED_WIDTH}
-                style={{
-                    width: this.props.width,
-                    height: this.props.height,
-                }}
-            />
-        </Zoomable>
+            <Zoomable
+                zoomWidth={ZOOMED_WIDTH}
+                zoomed={this.props.zoomed}
+            >
+                <canvas
+                    ref={(node) => node !== null && (this.canvasNode = node)}
+                    width={ZOOMED_WIDTH}
+                    height={ZOOMED_WIDTH}
+                    style={{
+                        width: this.props.width,
+                        height: this.props.height,
+                    }}
+                />
+            </Zoomable>
+        </button>
     }
 }
 
@@ -57,4 +58,24 @@ Toy.propTypes = {
     title: React.PropTypes.string.isRequired,
     description: React.PropTypes.string,
     draw: React.PropTypes.func.isRequired,
+
+    zoomed: React.PropTypes.bool.isRequired,
+    onSelect: React.PropTypes.func.isRequired,
 }
+
+const styles = StyleSheet.create({
+    toy: {
+        background: "none",
+        border: "none",
+        display: "inline-block",
+        padding: 0,
+
+        ":focus": {
+            outline: "3px solid blue",
+        },
+    },
+
+    thumbnail: {
+        cursor: "zoom-in",
+    }
+})

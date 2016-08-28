@@ -5,27 +5,14 @@ import { StyleSheet, css } from "aphrodite"
 export default class Zoomable extends Component {
     constructor() {
         super()
-
         this.zoomableNode = null
-        this.state = {
-            zoomed: false,
-        }
-    }
-
-    handleClick() {
-        const { zoomWidth } = this.props
-
-        if (!this.state.zoomed) {
-            this.setState({
-                zoomed: true,
-            })
-        }
     }
 
     getTranslateSprings() {
-        const { zoomWidth } = this.props
+        const { zoomed, zoomWidth } = this.props
 
-        if (this.zoomableNode && this.state.zoomed) {
+        if (this.zoomableNode && zoomed) {
+            // This causes issues if we switch between items really quickly (1-2-1)
             const { top, left, width } = this.zoomableNode.getBoundingClientRect()
 
             const desiredX = window.innerWidth / 2 - zoomWidth / 2
@@ -46,39 +33,32 @@ export default class Zoomable extends Component {
     }
 
     render() {
-        const { children, containerStyle } = this.props
-
-        return <div style={containerStyle}>
-            <Motion style={this.getTranslateSprings()}>
-                {({translateX, translateY, scale}) =>
-                    <div
-                        className={css(!this.state.zoomed && styles.normal)}
-                        ref={(node) => node !== null && (this.zoomableNode = node)}
-                        style={{
-                            transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
-                            transformOrigin: "0 0",
-                        }}
-                        onClick={() => this.handleClick()}
-                    >
-                        {children}
-                    </div>
-                }
-
-            </Motion>
-        </div>
+        return <Motion style={this.getTranslateSprings()}>
+            {({translateX, translateY, scale}) =>
+                <div
+                    className={css(!this.props.zoomed && styles.normal)}
+                    ref={(node) => node !== null && (this.zoomableNode = node)}
+                    style={{
+                        transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`,
+                        transformOrigin: "0 0",
+                    }}
+                >
+                    {this.props.children}
+                </div>
+            }
+        </Motion>
     }
 }
 
 Zoomable.propTypes = {
     children: React.PropTypes.node.isRequired,
-    containerStyle: React.PropTypes.object,
     onZoom: React.PropTypes.func,
+    zoomed: React.PropTypes.bool.isRequired,
     zoomWidth: React.PropTypes.number,
 }
 
 Zoomable.defaultProps = {
     onZoom: () => {},
-    style: {},
     zoomWidth: 600,
 }
 
