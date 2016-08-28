@@ -7,6 +7,9 @@ export default class Zoomable extends Component {
     constructor() {
         super()
         this.referenceNode = null
+        this.state = {
+            frontAndCenter: false,
+        }
     }
 
     componentDidMount() {
@@ -19,8 +22,23 @@ export default class Zoomable extends Component {
         window.addEventListener("resize", this.throttledResize)
     }
 
+    componentWillReceiveProps(newProps) {
+        const isGoingToZoom = (!this.props.zoomed && newProps.zoomed)
+        if (isGoingToZoom) {
+            this.setState({
+                frontAndCenter: true,
+            })
+        }
+    }
+
     componentWillUnmount() {
         window.removeEventListener("resize", this.throttledResize)
+    }
+
+    handleTransitionEnd() {
+        this.setState({
+            frontAndCenter: this.props.zoomed,
+        })
     }
 
     getTranslateSprings() {
@@ -49,7 +67,10 @@ export default class Zoomable extends Component {
     }
 
     render() {
-        return <Motion style={this.getTranslateSprings()}>
+        return <Motion
+            style={this.getTranslateSprings()}
+            onRest={() => this.handleTransitionEnd()}
+        >
             {({translateX, translateY, scale, opacity}) =>
                 // We'll use a wrapper "reference" node, which retains its shape
                 // while its child resizes!
@@ -68,7 +89,7 @@ export default class Zoomable extends Component {
 
                     <div
                         className={css(
-                            this.props.zoomed && styles.zoomed,
+                            this.state.frontAndCenter && styles.frontAndCenter,
                             !this.props.zoomed && styles.normal
                         )}
                         style={{
@@ -103,7 +124,7 @@ const styles = StyleSheet.create({
         height: "100%",
     },
 
-    zoomed: {
+    frontAndCenter: {
         position: "absolute",
         zIndex: MAX_ZINDEX,
     },
