@@ -7,16 +7,55 @@ import { createPainter } from "./painter.js"
 const ZOOMED_WIDTH = 600
 
 export default class Toy extends Component {
+    constructor(props) {
+        super()
+        this.state = {
+            canvasWidth: props.width,
+            canvasHeight: props.height,
+        }
+    }
+
     componentDidMount() {
+        this.renderCanvas()
+    }
+
+    componentDidUpdate(oldProps, oldState) {
+        if (oldState.canvasWidth !== this.state.canvasWidth) {
+            this.renderCanvas()
+        }
+    }
+
+    renderCanvas() {
         const { draw } = this.props
+        const { canvasWidth, canvasHeight } = this.state
 
         const ctx = this.canvasNode.getContext("2d")
-        const painter = createPainter(ctx, ZOOMED_WIDTH, ZOOMED_WIDTH)
+        const painter = createPainter(ctx, canvasWidth, canvasHeight)
 
         draw(painter, 0)
     }
 
+    handleClick() {
+        const willBeZoomed = !this.props.zoomed
+
+        if (willBeZoomed) {
+            this.setState({
+                canvasWidth: ZOOMED_WIDTH,
+                canvasHeight: ZOOMED_WIDTH,
+            })
+
+            this.props.onSelect()
+        } else {
+            this.setState({
+                canvasWidth: this.props.width,
+                canvasHeight: this.props.height,
+            })
+        }
+    }
+
     render() {
+        const { canvasWidth, canvasHeight } = this.state
+
         const inlineStyle = {
             width: this.props.width,
             height: this.props.height,
@@ -35,7 +74,7 @@ export default class Toy extends Component {
                 styles.toy,
                 !this.props.zoomed && styles.thumbnail
             )}
-            onClick={() => !this.props.zoomed && this.props.onSelect()}
+            onClick={() => this.handleClick()}
         >
             <Zoomable
                 zoomWidth={ZOOMED_WIDTH}
@@ -43,8 +82,8 @@ export default class Toy extends Component {
             >
                 <canvas
                     ref={(node) => node !== null && (this.canvasNode = node)}
-                    width={ZOOMED_WIDTH}
-                    height={ZOOMED_WIDTH}
+                    width={canvasWidth}
+                    height={canvasHeight}
                     style={{
                         width: this.props.width,
                         height: this.props.height,

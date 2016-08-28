@@ -86,13 +86,11 @@ export default class Zoomable extends Component {
 
 Zoomable.propTypes = {
     children: React.PropTypes.node.isRequired,
-    onZoom: React.PropTypes.func,
     zoomed: React.PropTypes.bool.isRequired,
     zoomWidth: React.PropTypes.number,
 }
 
 Zoomable.defaultProps = {
-    onZoom: () => {},
     zoomWidth: 600,
 }
 
