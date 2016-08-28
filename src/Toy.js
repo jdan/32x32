@@ -39,6 +39,17 @@ export default class Toy extends Component {
         const painter = createPainter(ctx, canvasWidth, canvasHeight)
 
         draw(painter, 0)
+
+        if (this.props.running) {
+            this.frame = 0
+            this.timer = setInterval(() => {
+                draw(painter, ++this.frame)
+            }, 16)
+        } else {
+            clearInterval(this.timer)
+            this.timer = null
+            this.frame = 0
+        }
     }
 
     handleClick() {
@@ -89,8 +100,6 @@ export default class Toy extends Component {
 }
 
 Toy.propTypes = {
-    // Pass-through props from Toy implementations
-    running: React.PropTypes.bool.isRequired,
     width: React.PropTypes.number.isRequired,
     height: React.PropTypes.number.isRequired,
 
@@ -98,6 +107,7 @@ Toy.propTypes = {
     description: React.PropTypes.string,
     draw: React.PropTypes.func.isRequired,
 
+    running: React.PropTypes.bool.isRequired,
     zoomed: React.PropTypes.bool.isRequired,
     onSelect: React.PropTypes.func.isRequired,
 }
@@ -105,7 +115,7 @@ Toy.propTypes = {
 const styles = StyleSheet.create({
     toy: {
         background: "none",
-        margin: 2,
+        margin: 4,
 
         ":focus": {
             outline: "2px solid blue",
