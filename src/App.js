@@ -37,6 +37,7 @@ class App extends Component {
         return <div onKeyDown={(e) => this.handleKeyDown(e)}>
             {toys.map((toy, i) => {
                 const isSelected = (this.state.zoomedIndex === i)
+                const somethingElseIsSelected = (this.state.zoomedIndex > -1 && !isSelected)
 
                 return <Toy
                     key={i}
@@ -50,6 +51,7 @@ class App extends Component {
 
                     onSelect={() => this.handleSelect(i)}
                     onDeselect={() => this.handleDeselect(i)}
+                    hackSomethingElseIsSelected={somethingElseIsSelected}
                 />
             })}
         </div>

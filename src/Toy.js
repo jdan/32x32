@@ -82,6 +82,7 @@ export default class Toy extends Component {
             onClick={() => this.handleClick()}
         >
             <Zoomable
+                hackSomethingElseIsSelected={this.props.hackSomethingElseIsSelected}
                 zoomWidth={ZOOMED_WIDTH}
                 zoomed={this.props.zoomed}
             >
@@ -110,6 +111,7 @@ Toy.propTypes = {
     running: React.PropTypes.bool.isRequired,
     zoomed: React.PropTypes.bool.isRequired,
     onSelect: React.PropTypes.func.isRequired,
+    hackSomethingElseIsSelected: React.PropTypes.bool.isRequired,
 }
 
 const styles = StyleSheet.create({

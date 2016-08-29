@@ -90,6 +90,7 @@ export default class Zoomable extends Component {
                     <div
                         className={css(
                             this.state.frontAndCenter && styles.frontAndCenter,
+                            !this.props.hackSomethingElseIsSelected && styles.maxZIndex,
                             !this.props.zoomed && styles.normal
                         )}
                         style={{
@@ -107,6 +108,7 @@ export default class Zoomable extends Component {
 
 Zoomable.propTypes = {
     children: React.PropTypes.node.isRequired,
+    hackSomethingElseIsSelected: React.PropTypes.bool.isRequired,
     zoomed: React.PropTypes.bool.isRequired,
     zoomWidth: React.PropTypes.number,
 }
@@ -126,6 +128,9 @@ const styles = StyleSheet.create({
 
     frontAndCenter: {
         position: "absolute",
+    },
+
+    maxZIndex: {
         zIndex: MAX_ZINDEX,
     },
 
