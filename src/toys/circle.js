@@ -2,7 +2,7 @@ const r = Math.floor(Math.random() * 255)
 const g = Math.floor(Math.random() * 255)
 const b = Math.floor(Math.random() * 255)
 
-export function draw(painter, frame) {
+export function draw({ painter, frame }) {
     painter.rect(0, 0, painter.WIDTH, painter.HEIGHT, `rgb(${r}, ${g}, ${b})`)
 
     const theta = frame * (2 * Math.PI) / 200

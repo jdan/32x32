@@ -60,14 +60,23 @@ export default class Toy extends Component {
         const { canvasWidth, canvasHeight } = this.getCanvasDimensions()
 
         const ctx = this.canvasNode.getContext("2d")
+        ctx.fillStyle = "rgb(255, 255, 255)"
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+
         const painter = createPainter(ctx, canvasWidth, canvasHeight)
 
-        draw(painter, 0)
+        draw({
+            painter,
+            frame: 0,
+        })
 
         if (this.props.zoomed && this.state.running) {
             this.frame = 0
             this.timer = setInterval(() => {
-                draw(painter, ++this.frame)
+                draw({
+                    painter,
+                    frame: ++this.frame,
+                })
             }, 16)
         } else {
             clearInterval(this.timer)

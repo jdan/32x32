@@ -1,3 +1,5 @@
+import bresenham from "bresenham"
+
 export function createPainter(ctx, width, height) {
     const PIXEL_COUNT = 32
     const PIXEL_WIDTH = width / PIXEL_COUNT
@@ -14,6 +16,13 @@ export function createPainter(ctx, width, height) {
         rect(x, y, 1, 1, color)
     }
 
+    function line(x1, y1, x2, y2, color) {
+        const line = bresenham(x1, y1, x2, y2)
+        for (const {x, y} of line) {
+            pixel(x, y, color)
+        }
+    }
+
     return {
         // Constants
         WIDTH: PIXEL_COUNT,
@@ -22,5 +31,6 @@ export function createPainter(ctx, width, height) {
         // Drawing methods
         pixel,
         rect,
+        line,
     }
 }

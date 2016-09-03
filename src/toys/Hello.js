@@ -1,4 +1,4 @@
-export function draw(painter) {
+export function draw({ painter }) {
     painter.rect(0, 0, painter.WIDTH, painter.HEIGHT, "rgb(0, 0, 0)")
 
     // Paint a random pixel red
