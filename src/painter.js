@@ -16,7 +16,7 @@ export function createPainter(ctx, width, height) {
         rect(x, y, 1, 1, color)
     }
 
-    function pixels(arr, color) {
+    function _mapPixel(arr, color) {
         for (const {x, y} of arr) {
             pixel(x, y, color)
         }
@@ -24,7 +24,7 @@ export function createPainter(ctx, width, height) {
 
     function line(x1, y1, x2, y2, color) {
         const line = bresenham(x1, y1, x2, y2)
-        pixels(line, color)
+        _mapPixel(line, color)
     }
 
     function circle(x0, y0, radius, color) {
@@ -33,7 +33,7 @@ export function createPainter(ctx, width, height) {
         let err = 0
 
         while (x >= y) {
-            pixels([
+            _mapPixel([
                 { x: x0 + x, y: y0 + y },
                 { x: x0 + y, y: y0 + x },
                 { x: x0 - y, y: y0 + x },
@@ -53,6 +53,14 @@ export function createPainter(ctx, width, height) {
         }
     }
 
+    function pixels(grid, palette, x=0, y=0) {
+        for (let j = 0; j < grid.length; j++) {
+            for (let i = 0; i < grid[j].length; i++) {
+                pixel(i+x, j+y, palette[grid[j][i]])
+            }
+        }
+    }
+
     return {
         // Constants
         WIDTH: PIXEL_COUNT,
@@ -60,6 +68,7 @@ export function createPainter(ctx, width, height) {
 
         // Drawing methods
         pixel,
+        pixels,
         rect,
         line,
         circle,
