@@ -8,7 +8,12 @@ export function createPainter(ctx, width, height) {
     function rect(x, y, w, h, color) {
         ctx.save()
         ctx.fillStyle = color
-        ctx.fillRect(x*PIXEL_WIDTH, y*PIXEL_HEIGHT, w*PIXEL_WIDTH, h*PIXEL_HEIGHT)
+        ctx.fillRect(...[
+            x*PIXEL_WIDTH,
+            y*PIXEL_HEIGHT,
+            w*PIXEL_WIDTH,
+            h*PIXEL_HEIGHT
+        ].map((v) => Math.round(v)))
         ctx.restore()
     }
 
