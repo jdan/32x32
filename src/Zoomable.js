@@ -122,8 +122,6 @@ const MAX_ZINDEX = 9999;
 const styles = StyleSheet.create({
     normal: {
         cursor: "zoom-in",
-        // Likewise, we need height: 100% to prevent a couple extra pixels on the bottom
-        height: "100%",
     },
 
     frontAndCenter: {
