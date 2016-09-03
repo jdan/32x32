@@ -9,6 +9,12 @@ const ZOOMED_WIDTH = 600
 export default class Toy extends Component {
     constructor() {
         super()
+
+        this.input = {
+            x: 9999,
+            y: 9999,
+        }
+
         this.state = {
             running: false,
         }
@@ -55,6 +61,10 @@ export default class Toy extends Component {
         }
     }
 
+    isActive() {
+        return this.props.zoomed && this.state.running
+    }
+
     renderCanvas() {
         const { draw } = this.props
         const { canvasWidth, canvasHeight } = this.getCanvasDimensions()
@@ -67,14 +77,16 @@ export default class Toy extends Component {
 
         draw({
             painter,
+            input: this.input,
             frame: 0,
         })
 
-        if (this.props.zoomed && this.state.running) {
+        if (this.isActive()) {
             this.frame = 0
             this.timer = setInterval(() => {
                 draw({
                     painter,
+                    input: this.input,
                     frame: ++this.frame,
                 })
             }, 16)
@@ -88,6 +100,28 @@ export default class Toy extends Component {
     handleClick() {
         if (!this.props.zoomed) {
             this.props.onSelect()
+        }
+    }
+
+    // TODO: We can probably throttle this
+    handleMouseMove(e) {
+        const { canvasWidth, canvasHeight } = this.getCanvasDimensions()
+
+        if (this.isActive()) {
+            const rect = e.target.getBoundingClientRect()
+            const x = e.clientX - rect.left
+            const y = e.clientY - rect.top
+
+            // Map a value v from [a,b] to [c,d]
+            function map(v, a, b, c, d) {
+                return (v - a) / (b - a) * (d - c) + c
+            }
+
+            this.input = {
+                // 32 hard-coded :(
+                x: Math.round(map(x, 0, canvasWidth, 0, 32)),
+                y: Math.round(map(y, 0, canvasHeight, 0, 32)),
+            }
         }
     }
 
@@ -123,6 +157,7 @@ export default class Toy extends Component {
                     ref={(node) => node !== null && (this.canvasNode = node)}
                     width={canvasWidth}
                     height={canvasHeight}
+                    onMouseMove={(e) => this.handleMouseMove(e)}
                     style={{
                         width: this.props.width,
                         height: this.props.height,

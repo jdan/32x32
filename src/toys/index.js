@@ -3,8 +3,9 @@ import * as circle from "./circle.js"
 import * as lines from "./lines.js"
 import * as bubbles from "./bubbles.js"
 import * as oizo from "./oizo.js"
+import * as cursor from "./cursor.js"
 
-const toys = [circle, lines, bubbles, oizo]
+const toys = [circle, lines, bubbles, oizo, cursor]
 
 for (let i = 0; i < 200; i++) {
     toys.push(hello)
