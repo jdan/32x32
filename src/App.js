@@ -30,6 +30,16 @@ class App extends Component {
         })
     }
 
+    componentDidUpdate(oldProps, oldState) {
+        if (oldState.zoomedIndex !== this.state.zoomedIndex) {
+            if (this.state.zoomedIndex > -1) {
+                document.body.style.overflowY = "hidden"
+            } else {
+                document.body.style.overflowY = "auto"
+            }
+        }
+    }
+
     render() {
         // We should compute something based on the screen size
         const size = 80
