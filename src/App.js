@@ -47,7 +47,6 @@ class App extends Component {
                     height={size}
 
                     zoomed={isSelected}
-                    running={isSelected}
 
                     onSelect={() => this.handleSelect(i)}
                     onDeselect={() => this.handleDeselect(i)}

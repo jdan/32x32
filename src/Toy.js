@@ -7,12 +7,36 @@ import { createPainter } from "./painter.js"
 const ZOOMED_WIDTH = 600
 
 export default class Toy extends Component {
+    constructor() {
+        super()
+        this.state = {
+            running: false,
+        }
+    }
+
     componentDidMount() {
         this.renderCanvas()
     }
 
     componentDidUpdate(oldProps, oldState) {
         if (oldProps.zoomed !== this.props.zoomed) {
+            this.renderCanvas()
+
+            if (this.props.zoomed) {
+                // Give the animation time to breathe
+                setTimeout(() => {
+                    this.setState({
+                        running: true,
+                    })
+                }, 100)
+            } else {
+                this.setState({
+                    running: false,
+                })
+            }
+        }
+
+        if (oldState.running !== this.state.running) {
             this.renderCanvas()
         }
     }
@@ -40,7 +64,7 @@ export default class Toy extends Component {
 
         draw(painter, 0)
 
-        if (this.props.running) {
+        if (this.props.zoomed && this.state.running) {
             this.frame = 0
             this.timer = setInterval(() => {
                 draw(painter, ++this.frame)
@@ -108,7 +132,6 @@ Toy.propTypes = {
     description: React.PropTypes.string,
     draw: React.PropTypes.func.isRequired,
 
-    running: React.PropTypes.bool.isRequired,
     zoomed: React.PropTypes.bool.isRequired,
     onSelect: React.PropTypes.func.isRequired,
     hackSomethingElseIsSelected: React.PropTypes.bool.isRequired,
