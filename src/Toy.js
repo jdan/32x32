@@ -173,6 +173,7 @@ Toy.propTypes = {
     height: React.PropTypes.number.isRequired,
 
     title: React.PropTypes.string.isRequired,
+    slug: React.PropTypes.string.isRequired,
     description: React.PropTypes.string,
     draw: React.PropTypes.func.isRequired,
 

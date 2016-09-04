@@ -36,3 +36,4 @@ export function draw({ painter }) {
 }
 
 export const title = "Mr Oizo"
+export const slug = "oizo"

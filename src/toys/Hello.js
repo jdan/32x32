@@ -9,3 +9,4 @@ export function draw({ painter }) {
 }
 
 export const title = "Hello, world!"
+export const slug = "hello"

@@ -12,22 +12,37 @@ class App extends Component {
 
     handleKeyDown(e) {
         if (e.key === "Escape") {
-            this.setState({
-                zoomedIndex: -1,
-            })
+            this.handleDeselect()
         }
     }
 
     handleSelect(index) {
+        const { slug } = toys[index]
+        history.replaceState({}, "", "#" + slug)
+        document.title = slug + " | 32x32"
+
         this.setState({
             zoomedIndex: index,
         })
     }
 
-    handleDeselect(index) {
+    handleDeselect() {
+        // Clear the current hash
+        history.replaceState({}, "", window.location.pathname)
+        document.title = "32x32"
+
         this.setState({
             zoomedIndex: -1,
         })
+    }
+
+    componentDidMount() {
+        const slug = document.location.hash.slice(1)
+        if (slug) {
+            this.setState({
+                zoomedIndex: toys.findIndex((toy) => toy.slug === slug),
+            })
+        }
     }
 
     componentDidUpdate(oldProps, oldState) {

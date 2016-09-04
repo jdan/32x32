@@ -5,3 +5,4 @@ export function draw({ painter }) {
 }
 
 export const title = "Some bubbles!"
+export const slug = "bubbles"

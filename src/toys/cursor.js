@@ -13,3 +13,4 @@ export function draw({ painter, input }) {
 }
 
 export const title = "A mouse cursor"
+export const slug = "cursor"

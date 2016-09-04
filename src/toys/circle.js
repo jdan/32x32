@@ -15,3 +15,4 @@ export function draw({ painter, frame }) {
 }
 
 export const title = "A circle!"
+export const slug = "circle"
