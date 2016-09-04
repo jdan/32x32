@@ -10,6 +10,7 @@ export default class Toy extends Component {
     constructor() {
         super()
 
+        this.painter = null
         this.input = {
             x: 9999,
             y: 9999,
@@ -62,7 +63,7 @@ export default class Toy extends Component {
     }
 
     isActive() {
-        return this.props.zoomed && this.state.running
+        return this.painter && this.props.zoomed && this.state.running
     }
 
     renderCanvas() {
@@ -73,10 +74,10 @@ export default class Toy extends Component {
         ctx.fillStyle = "rgb(255, 255, 255)"
         ctx.fillRect(0, 0, canvasWidth, canvasHeight)
 
-        const painter = createPainter(ctx, canvasWidth, canvasHeight)
+        this.painter = createPainter(ctx, canvasWidth, canvasHeight)
 
         draw({
-            painter,
+            painter: this.painter,
             input: this.input,
             frame: 0,
         })
@@ -85,7 +86,7 @@ export default class Toy extends Component {
             this.frame = 0
             this.timer = setInterval(() => {
                 draw({
-                    painter,
+                    painter: this.painter,
                     input: this.input,
                     frame: ++this.frame,
                 })
@@ -118,9 +119,8 @@ export default class Toy extends Component {
             }
 
             this.input = {
-                // 32 hard-coded :(
-                x: Math.round(map(x, 0, canvasWidth, 0, 32)),
-                y: Math.round(map(y, 0, canvasHeight, 0, 32)),
+                x: Math.round(map(x, 0, canvasWidth, 0, this.painter.WIDTH)),
+                y: Math.round(map(y, 0, canvasHeight, 0, this.painter.HEIGHT)),
             }
         }
     }
