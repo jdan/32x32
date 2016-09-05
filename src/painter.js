@@ -17,6 +17,10 @@ export function createPainter(ctx, width, height) {
         ctx.restore()
     }
 
+    function background(color) {
+        rect(0, 0, PIXEL_COUNT, PIXEL_COUNT, color)
+    }
+
     function pixel(x, y, color) {
         rect(x, y, 1, 1, color)
     }
@@ -72,6 +76,7 @@ export function createPainter(ctx, width, height) {
         HEIGHT: PIXEL_COUNT,
 
         // Drawing methods
+        background,
         pixel,
         pixels,
         rect,
