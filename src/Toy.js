@@ -14,6 +14,8 @@ export default class Toy extends Component {
         this.input = {
             x: 9999,
             y: 9999,
+            key: {},
+            keyp: {},
         }
 
         this.state = {
@@ -90,6 +92,11 @@ export default class Toy extends Component {
                     input: this.input,
                     frame: ++this.frame,
                 })
+
+                // Clear any buttons that were just pressed
+                Object.keys(this.input.keyp).forEach((code) => {
+                    this.input.keyp[code] = false
+                })
             }, 16)
         } else {
             clearInterval(this.timer)
@@ -118,11 +125,27 @@ export default class Toy extends Component {
                 return (v - a) / (b - a) * (d - c) + c
             }
 
-            this.input = {
-                x: Math.round(map(x, 0, canvasWidth, 0, this.painter.WIDTH)),
-                y: Math.round(map(y, 0, canvasHeight, 0, this.painter.HEIGHT)),
-            }
+            this.input.x = Math.round(map(x, 0, canvasWidth, 0, this.painter.WIDTH))
+            this.input.y = Math.round(map(y, 0, canvasHeight, 0, this.painter.HEIGHT))
         }
+    }
+
+    handleKeyDown(e) {
+        this.input.key[e.key] = true
+
+        // The entry in `keyp` must be non-existant (via onKeyUp) in order
+        // for us to set it to true. It will be set to false in the next
+        // frame.
+        //
+        // TODO: We can swap this out with a more explicit state machine
+        if (this.input.keyp[e.key] === undefined) {
+            this.input.keyp[e.key] = true
+        }
+    }
+
+    handleKeyUp(e) {
+        delete this.input.key[e.key]
+        delete this.input.keyp[e.key]
     }
 
     render() {
@@ -147,6 +170,8 @@ export default class Toy extends Component {
                 !this.props.zoomed && styles.thumbnail
             )}
             onClick={() => this.handleClick()}
+            onKeyDown={(e) => this.handleKeyDown(e)}
+            onKeyUp={(e) => this.handleKeyUp(e)}
         >
             <Zoomable
                 hackSomethingElseIsSelected={this.props.hackSomethingElseIsSelected}
