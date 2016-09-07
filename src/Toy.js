@@ -10,6 +10,7 @@ export default class Toy extends Component {
     constructor() {
         super()
 
+        this.node = null
         this.painter = null
         this.input = {
             x: 9999,
@@ -32,6 +33,7 @@ export default class Toy extends Component {
             this.renderCanvas()
 
             if (this.props.zoomed) {
+                this.node.focus()
                 // Give the animation time to breathe
                 setTimeout(() => {
                     this.setState({
@@ -169,6 +171,7 @@ export default class Toy extends Component {
                 styles.toy,
                 !this.props.zoomed && styles.thumbnail
             )}
+            ref={(node) => this.node = node}
             onClick={() => this.handleClick()}
             onKeyDown={(e) => this.handleKeyDown(e)}
             onKeyUp={(e) => this.handleKeyUp(e)}
