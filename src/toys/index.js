@@ -1,4 +1,3 @@
-import * as hello from "./hello.js"
 import * as circle from "./circle.js"
 import * as lines from "./lines.js"
 import * as bubbles from "./bubbles.js"
@@ -13,7 +12,6 @@ const toys = [
     bubbles,
     oizo,
     cursor,
-    hello,
     keys,
     maze,
 ]
