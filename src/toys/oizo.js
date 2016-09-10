@@ -1,8 +1,10 @@
+import wav from "./oizo.wav"
+
 const SAMPLE_LENGTH = 7890
 
 // Set up the audio
-const loop = new SeamlessLoop();
-loop.addUri("src/toys/oizo.wav", SAMPLE_LENGTH, "oizo");
+const loop = new SeamlessLoop()
+loop.addUri(wav, SAMPLE_LENGTH, "oizo")
 
 let playing = false
 let startTime = null
