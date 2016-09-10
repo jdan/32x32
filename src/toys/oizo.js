@@ -1,5 +1,7 @@
 import wav from "./oizo.wav"
 
+import "script!../../vendor/SeamlessLoop.js"
+
 const SAMPLE_LENGTH = 7890
 
 // Set up the audio
