@@ -5,6 +5,7 @@ import * as oizo from "./oizo.js"
 import * as cursor from "./cursor.js"
 import * as keys from "./keys.js"
 import * as maze from "./maze.js"
+import * as blank from "./blank.js"
 
 const toys = [
     circle,
@@ -15,5 +16,7 @@ const toys = [
     keys,
     maze,
 ]
+
+toys[-1] = blank
 
 export default toys
