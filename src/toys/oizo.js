@@ -1,17 +1,10 @@
-import wav from "./oizo.wav"
-
-import "script!../../vendor/SeamlessLoop.js"
-
-const SAMPLE_LENGTH = 7890
-
-// Set up the audio
-const loop = new SeamlessLoop()
-loop.addUri(wav, SAMPLE_LENGTH, "oizo")
-
 let playing = false
 let startTime = null
 
-export function draw({ painter, input, frame }) {
+const BPM = 122
+const SAMPLE_LENGTH = 60 * 1000 / BPM * 16
+
+export function draw({ painter, input, frame, play, stop }) {
     // Black background
     painter.rect(0, 0, 32, 32, "rgb(0, 0, 0)")
 
@@ -62,19 +55,23 @@ export function draw({ painter, input, frame }) {
             const x = [10, 12, 16, 18][step]
             painter.rect(x, 22, 4, 2, "rgb(255, 0, 0)")
         }
-    } else if (input.keyp["p"]) {
+    } else if (input.keyp[80]) {
         // Can we start it some other way?
         playing = true
         startTime = new Date()
-        loop.start("oizo")
+        play()
     }
 
-    if (input.keyp["s"]) {
+    if (input.keyp[83]) {
         playing = false
         startTime = null
-        loop.stop()
+        stop()
     }
 }
 
 export const title = "Mr Oizo"
 export const slug = "oizo"
+
+// Loop info
+export { default as sample } from "./oizo.wav"
+export const bpm = BPM

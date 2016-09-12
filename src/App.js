@@ -3,6 +3,9 @@ import { StyleSheet, css } from "aphrodite"
 import toys from "./toys"
 import Toy from "./Toy.js"
 
+import { Song, Sequencer, Sampler } from "react-music"
+import wav from "./toys/oizo.wav"
+
 class App extends Component {
     constructor() {
         super()
@@ -16,6 +19,7 @@ class App extends Component {
 
         this.state = {
             zoomedIndex: -1,
+            soundPlaying: false,
         }
     }
 
@@ -48,30 +52,57 @@ class App extends Component {
     }
 
     handleKeyDown(e) {
-        this.input.key[e.key] = true
+        this.input.key[e.keyCode] = true
 
         // The entry in `keyp` must be non-existant (via onKeyUp) in order
         // for us to set it to true. It will be set to false in the next
         // frame.
         //
         // TODO: We can swap this out with a more explicit state machine
-        if (this.input.keyp[e.key] === undefined) {
-            this.input.keyp[e.key] = true
+        if (this.input.keyp[e.keyCode] === undefined) {
+            this.input.keyp[e.keyCode] = true
         }
     }
 
     handleKeyUp(e) {
-        delete this.input.key[e.key]
-        delete this.input.keyp[e.key]
+        delete this.input.key[e.keyCode]
+        delete this.input.keyp[e.keyCode]
+    }
+
+    handlePlay() {
+        this.setState({
+            soundPlaying: true,
+        })
+    }
+
+    handleStop() {
+        this.setState({
+            soundPlaying: false,
+        })
     }
 
     renderFocus() {
+        const toy = toys[this.state.zoomedIndex]
+        const renderSound = (toy.sample && toy.bpm && this.state.soundPlaying)
+
         return <div className={css(styles.focus)}>
             <Toy
-                {...toys[this.state.zoomedIndex]}
+                {...toy}
+                handlePlay={() => this.handlePlay()}
+                handleStop={() => this.handleStop()}
                 focused={true}
                 input={this.input}
             />
+
+            {renderSound &&
+                <Song tempo={toy.bpm} playing={true}>
+                    <Sequencer resolution={16} bars={4}>
+                        <Sampler
+                            sample={toy.sample}
+                            steps={[0]}
+                        />
+                    </Sequencer>
+                </Song>}
         </div>
     }
 

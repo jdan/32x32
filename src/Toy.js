@@ -36,7 +36,6 @@ export default class Toy extends Component {
     }
 
     renderCanvas() {
-        const { draw } = this.props
         const canvasSize = this.getCanvasSize()
 
         const ctx = this.canvasNode.getContext("2d")
@@ -45,20 +44,24 @@ export default class Toy extends Component {
 
         this.painter = createPainter(ctx, canvasSize, canvasSize)
 
-        draw({
-            painter: this.painter,
-            input: this.props.input,
-            frame: 0,
-        })
+        const draw = () => {
+            this.props.draw({
+                painter: this.painter,
+                input: this.props.input,
+                frame: this.frame,
+                play: () => this.props.handlePlay(),
+                stop: () => this.props.handleStop(),
+            })
+        }
+
+        // Call an initial draw
+        draw()
 
         if (this.props.focused) {
             this.frame = 0
             this.timer = setInterval(() => {
-                draw({
-                    painter: this.painter,
-                    input: this.props.input,
-                    frame: ++this.frame,
-                })
+                ++this.frame;
+                draw()
 
                 // Clear any buttons that were just pressed
                 Object.keys(this.props.input.keyp).forEach((code) => {
@@ -105,7 +108,17 @@ Toy.propTypes = {
     description: React.PropTypes.string,
     draw: React.PropTypes.func.isRequired,
     focused: React.PropTypes.bool,
+    sample: React.PropTypes.string,
+    bpm: React.PropTypes.number,
+
+    handlePlay: React.PropTypes.func,
+    handleStop: React.PropTypes.func,
 
     // Global input
     input: React.PropTypes.object,
+}
+
+Toy.defaultProps = {
+    handlePlay: () => {},
+    handleStop: () => {},
 }
