@@ -7,8 +7,6 @@ import { StyleSheet, css } from "aphrodite"
 
 import Toy, { ToyPropType } from "./Toy.js"
 
-export const thumbnailSize = 80
-
 export default class Gallery extends Component {
     render() {
         const { toys, input, onSelect } = this.props
@@ -40,19 +38,27 @@ Gallery.propTypes = {
     input: React.PropTypes.object.isRequired,
 }
 
+const thumbnailSize = 80
+const padding = 4
+
+// The gallery is two thumbnails tall, and has 3 layers of padding
+export const galleryHeight = 2 * thumbnailSize + 3 * padding
+
 const styles = StyleSheet.create({
     gallery: {
         position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
+        top: padding,
+        left: padding,
+        right: padding,
 
-        height: 2 * thumbnailSize,
+        height: galleryHeight,
     },
 
     toy: {
         padding: 0,
         border: "none",
         height: thumbnailSize,
+        marginBottom: padding,
+        marginRight: padding,
     },
 })

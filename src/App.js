@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { StyleSheet, css } from "aphrodite"
 
-import Gallery, { thumbnailSize } from "./Gallery.js"
+import Gallery, { galleryHeight } from "./Gallery.js"
 import toys from "./toys"
 import Toy from "./Toy.js"
 
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     },
 
     focus: {
-        marginTop: 2 * thumbnailSize,
+        marginTop: galleryHeight,
     },
 })
 

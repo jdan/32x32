@@ -3,10 +3,6 @@ import { StyleSheet, css } from "aphrodite"
 
 import { createPainter } from "./painter.js"
 
-// TODO: These should probably be dynamic
-const THUMBNAIL_WIDTH = 80
-const FOCUSED_WIDTH = 600
-
 export default class Toy extends Component {
     constructor() {
         super()
@@ -89,6 +85,10 @@ export default class Toy extends Component {
     render() {
         return <canvas
             ref={(node) => node !== null && (this.canvasNode = node)}
+            style={{
+                width: "100%",
+                maxWidth: this.props.width,
+            }}
             width={this.props.width}
             height={this.props.height}
             onMouseMove={(e) => this.handleMouseMove(e)}
