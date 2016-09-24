@@ -1,10 +1,13 @@
 import React, { Component } from "react"
 import { StyleSheet, css } from "aphrodite"
+
+import Gallery, { thumbnailSize } from "./Gallery.js"
 import toys from "./toys"
 import Toy from "./Toy.js"
 
 import { Song, Sequencer, Sampler } from "react-music"
-import wav from "./toys/oizo.wav"
+
+const focusSize = 600
 
 class App extends Component {
     constructor() {
@@ -88,6 +91,8 @@ class App extends Component {
         return <div className={css(styles.focus)}>
             <Toy
                 {...toy}
+                width={focusSize}
+                height={focusSize}
                 handlePlay={() => this.handlePlay()}
                 handleStop={() => this.handleStop()}
                 focused={true}
@@ -106,35 +111,29 @@ class App extends Component {
         </div>
     }
 
-    renderToys() {
-        // We should compute something based on the screen size
-        const size = 80
-
-        return <div>
-            {toys.map((toy, i) => {
-                return <button
-                    onClick={() => this.handleSelect(i)}
-                    key={toy.slug}
-                >
-                    <Toy
-                        {...toy}
-                        input={this.input}
-                    />
-                </button>
-            })}
-        </div>
-    }
-
     render() {
-        return <main>
-            {this.renderFocus()}
-            {this.renderToys()}
+        return <main className={css(styles.main)}>
+            <div className={css(styles.focus)}>
+                {this.renderFocus()}
+            </div>
+
+            <Gallery
+                toys={toys}
+                input={this.input}
+                onSelect={(i) => this.handleSelect(i)}
+            />
         </main>
     }
 }
 
 const styles = StyleSheet.create({
+    main: {
 
+    },
+
+    focus: {
+        marginTop: 2 * thumbnailSize,
+    },
 })
 
 export default App

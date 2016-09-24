@@ -31,18 +31,14 @@ export default class Toy extends Component {
         }
     }
 
-    getCanvasSize() {
-        return (this.props.focused) ? FOCUSED_WIDTH : THUMBNAIL_WIDTH
-    }
-
     renderCanvas() {
-        const canvasSize = this.getCanvasSize()
+        const { width, height } = this.props
 
         const ctx = this.canvasNode.getContext("2d")
         ctx.fillStyle = "rgb(255, 255, 255)"
-        ctx.fillRect(0, 0, canvasSize, canvasSize)
+        ctx.fillRect(0, 0, width, height)
 
-        this.painter = createPainter(ctx, canvasSize, canvasSize)
+        this.painter = createPainter(ctx, width, height)
 
         const draw = () => {
             this.props.draw({
@@ -73,7 +69,7 @@ export default class Toy extends Component {
 
     // TODO: We can probably throttle this
     handleMouseMove(e) {
-        const canvasSize = this.getCanvasSize()
+        const { width, height } = this.props
 
         if (this.props.focused) {
             const rect = e.target.getBoundingClientRect()
@@ -85,24 +81,22 @@ export default class Toy extends Component {
                 return (v - a) / (b - a) * (d - c) + c
             }
 
-            this.props.input.x = Math.round(map(x, 0, canvasSize, 0, this.painter.WIDTH))
-            this.props.input.y = Math.round(map(y, 0, canvasSize, 0, this.painter.HEIGHT))
+            this.props.input.x = Math.round(map(x, 0, width, 0, this.painter.WIDTH))
+            this.props.input.y = Math.round(map(y, 0, height, 0, this.painter.HEIGHT))
         }
     }
 
     render() {
-        const canvasSize = this.getCanvasSize()
-
         return <canvas
             ref={(node) => node !== null && (this.canvasNode = node)}
-            width={canvasSize}
-            height={canvasSize}
+            width={this.props.width}
+            height={this.props.height}
             onMouseMove={(e) => this.handleMouseMove(e)}
         />
     }
 }
 
-Toy.propTypes = {
+export const ToyPropType = {
     title: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
     description: React.PropTypes.string,
@@ -110,12 +104,19 @@ Toy.propTypes = {
     focused: React.PropTypes.bool,
     sample: React.PropTypes.string,
     bpm: React.PropTypes.number,
+}
+
+Toy.propTypes = {
+    ...ToyPropType,
 
     handlePlay: React.PropTypes.func,
     handleStop: React.PropTypes.func,
 
     // Global input
     input: React.PropTypes.object,
+
+    width: React.PropTypes.number.isRequired,
+    height: React.PropTypes.number.isRequired,
 }
 
 Toy.defaultProps = {
