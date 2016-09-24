@@ -1,3 +1,5 @@
+import React from "react"
+
 const r = Math.floor(Math.random() * 255)
 const g = Math.floor(Math.random() * 255)
 const b = Math.floor(Math.random() * 255)
@@ -15,4 +17,9 @@ export function draw({ painter, frame }) {
 }
 
 export const title = "A circle!"
+
+export const description = <div>
+    This is a <a href="#">circle</a>.
+</div>
+
 export const slug = "circle"

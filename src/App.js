@@ -21,9 +21,13 @@ class App extends Component {
         }
 
         this.state = {
-            zoomedIndex: -1,
+            zoomedIndex: 0,
             soundPlaying: false,
         }
+    }
+
+    getCurrentToy() {
+        return toys[this.state.zoomedIndex]
     }
 
     handleSelect(index) {
@@ -85,10 +89,10 @@ class App extends Component {
     }
 
     renderFocus() {
-        const toy = toys[this.state.zoomedIndex]
+        const toy = this.getCurrentToy()
         const renderSound = (toy.sample && toy.bpm && this.state.soundPlaying)
 
-        return <div className={css(styles.focus)}>
+        return <div>
             <Toy
                 {...toy}
                 width={focusSize}
@@ -112,9 +116,16 @@ class App extends Component {
     }
 
     render() {
+        const currentToy = this.getCurrentToy()
+
         return <main className={css(styles.main)}>
             <div className={css(styles.focus)}>
                 {this.renderFocus()}
+
+                <div className={css(styles.info)}>
+                    <h1 className={css(styles.title)}>{currentToy.title}</h1>
+                    {currentToy.description}
+                </div>
             </div>
 
             <Gallery
@@ -132,7 +143,21 @@ const styles = StyleSheet.create({
     },
 
     focus: {
-        marginTop: galleryHeight,
+        position: "absolute",
+        top: galleryHeight,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        overflowY: "auto",
+    },
+
+    info: {
+        fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+        padding: 8,
+    },
+
+    title: {
+        marginTop: 0,
     },
 })
 

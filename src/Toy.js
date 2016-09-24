@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { StyleSheet, css } from "aphrodite"
 
 import { createPainter } from "./painter.js"
 
@@ -99,7 +98,7 @@ export default class Toy extends Component {
 export const ToyPropType = {
     title: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
-    description: React.PropTypes.string,
+    description: React.PropTypes.node,
     draw: React.PropTypes.func.isRequired,
     focused: React.PropTypes.bool,
     sample: React.PropTypes.string,
