@@ -52,11 +52,19 @@ const styles = StyleSheet.create({
         right: padding,
 
         height: galleryHeight,
+
+        display: "flex",
+        flexDirection: "column",
+        flexWrap: "wrap",
+
+        overflowX: "auto",
     },
 
     toy: {
+        display: "block",
         padding: 0,
         border: "none",
+        width: thumbnailSize,
         height: thumbnailSize,
         marginBottom: padding,
         marginRight: padding,
