@@ -148,7 +148,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        overflowY: "auto",
+        overflowY: "scroll",
+        WebkitOverflowScrolling: "touch",
     },
 
     info: {

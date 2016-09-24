@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         flexWrap: "wrap",
 
-        overflowX: "auto",
+        overflowX: "scroll",
+        WebkitOverflowScrolling: "touch",
     },
 
     toy: {
