@@ -1,5 +1,7 @@
 import Color from "color"
 
+const [LEFT, UP, RIGHT, DOWN] = [37, 38, 39, 40]
+
 const maze = [
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -68,13 +70,13 @@ export function draw({ painter, input, frame }) {
 
     let dx = 0
     let dy = 0
-    if (input.keyp["ArrowUp"]) {
+    if (input.keyp[UP]) {
         dy = -1
-    } else if (input.keyp["ArrowDown"]) {
+    } else if (input.keyp[DOWN]) {
         dy = 1
-    } else if (input.keyp["ArrowLeft"]) {
+    } else if (input.keyp[LEFT]) {
         dx = -1
-    } else if (input.keyp["ArrowRight"]) {
+    } else if (input.keyp[RIGHT]) {
         dx = 1
     }
 
