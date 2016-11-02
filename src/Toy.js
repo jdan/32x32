@@ -64,8 +64,6 @@ export default class Toy extends Component {
 
     // TODO: We can probably throttle this
     handleMouseMove(e) {
-        const { width, height } = this.props
-
         if (this.props.focused) {
             const rect = e.target.getBoundingClientRect()
             const x = e.clientX - rect.left
@@ -76,8 +74,8 @@ export default class Toy extends Component {
                 return (v - a) / (b - a) * (d - c) + c
             }
 
-            this.props.input.x = Math.round(map(x, 0, width, 0, this.painter.WIDTH))
-            this.props.input.y = Math.round(map(y, 0, height, 0, this.painter.HEIGHT))
+            this.props.input.x = Math.round(map(x, 0, rect.width, 0, this.painter.WIDTH))
+            this.props.input.y = Math.round(map(y, 0, rect.height, 0, this.painter.HEIGHT))
         }
     }
 
