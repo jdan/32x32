@@ -3,17 +3,19 @@
 let keyDecay = 0
 let keypDecay = 0
 
+const A = 65
+
 export function draw({ painter, input, frame }) {
     painter.background("rgb(0, 0, 0)")
 
     keyDecay = Math.max(keyDecay - 1, 0)
     keypDecay = Math.max(keypDecay - 1, 0)
 
-    if (input.key["a"]) {
+    if (input.key[A]) {
         keyDecay = 255
     }
 
-    if (input.keyp["a"]) {
+    if (input.keyp[A]) {
         keypDecay = 255
     }
 
