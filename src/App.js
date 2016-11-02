@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { StyleSheet, css } from "aphrodite"
 
-import Gallery, { galleryHeight } from "./Gallery.js"
+import Gallery, { desktopQuery, desktopWidth, galleryHeight } from "./Gallery.js"
 import toys from "./toys"
 import Toy from "./Toy.js"
 
@@ -150,6 +150,11 @@ const styles = StyleSheet.create({
         right: 0,
         overflowY: "scroll",
         WebkitOverflowScrolling: "touch",
+
+        [desktopQuery]: {
+            top: 0,
+            left: desktopWidth,
+        },
     },
 
     info: {

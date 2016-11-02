@@ -43,6 +43,8 @@ const padding = 4
 
 // The gallery is two thumbnails tall, and has 3 layers of padding
 export const galleryHeight = 2 * thumbnailSize + 3 * padding
+export const desktopQuery = "@media screen and (min-width: 1024px)"
+export const desktopWidth = 400
 
 const styles = StyleSheet.create({
     gallery: {
@@ -64,6 +66,15 @@ const styles = StyleSheet.create({
         // Hide the scrollbar
         "::-webkit-scrollbar": {
             display: "none",
+        },
+
+        [desktopQuery]: {
+            flexDirection: "row",
+            overflowX: "auto",
+
+            width: desktopWidth,
+            height: "auto",
+            bottom: 0,
         },
     },
 
