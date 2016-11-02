@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { StyleSheet, css } from "aphrodite"
 
-import Gallery, { desktopQuery, desktopWidth, galleryHeight } from "./Gallery.js"
+import Gallery, { desktopQuery, desktopWidth, galleryHeight, padding } from "./Gallery.js"
 import toys from "./toys"
 import Toy from "./Toy.js"
 
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
         WebkitOverflowScrolling: "touch",
 
         [desktopQuery]: {
-            top: 0,
+            top: padding,
             left: desktopWidth,
         },
     },

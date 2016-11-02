@@ -39,12 +39,13 @@ Gallery.propTypes = {
 }
 
 const thumbnailSize = 80
-const padding = 4
+export const padding = 4
 
 // The gallery is two thumbnails tall, and has 3 layers of padding
 export const galleryHeight = 2 * thumbnailSize + 3 * padding
+// On desktop, leave enough room for 5 thumbnails
+export const desktopWidth = 5 * thumbnailSize + 6 * padding
 export const desktopQuery = "@media screen and (min-width: 1024px)"
-export const desktopWidth = 400
 
 const styles = StyleSheet.create({
     gallery: {
