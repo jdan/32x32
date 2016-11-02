@@ -54,11 +54,17 @@ const styles = StyleSheet.create({
         height: galleryHeight,
 
         display: "flex",
+        alignContent: "flex-start",
         flexDirection: "column",
         flexWrap: "wrap",
 
         overflowX: "scroll",
         WebkitOverflowScrolling: "touch",
+
+        // Hide the scrollbar
+        "::-webkit-scrollbar": {
+            display: "none",
+        },
     },
 
     toy: {
